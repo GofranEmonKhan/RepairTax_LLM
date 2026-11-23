@@ -1,0 +1,19 @@
+# Core
+pyyaml>=6.0
+
+# Local LLM inference (Qwen2.5-7B-Instruct, 4-bit NF4)
+# NOTE: install torch separately with the CUDA build matching your driver —
+# see https://pytorch.org/get-started/locally/ — a plain `pip install torch`
+# will give you a CPU-only build. Do that BEFORE installing the rest of this file.
+transformers>=4.44
+accelerate>=0.33
+bitsandbytes>=0.43.1   # 0.43.1+ has native Windows wheels
+
+# GPU energy measurement
+nvidia-ml-py>=12.560.30
+
+# CPU energy measurement (RAPL via LibreHardwareMonitorLib.dll, see README)
+pythonnet>=3.0.3
+
+# Sandbox
+docker>=7.1.0

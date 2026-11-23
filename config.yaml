@@ -1,0 +1,81 @@
+# =============================================================================
+# Experiment configuration — see llm-code-correction-energy-carbon-spec.md
+# Fields marked "LOCKED" match decisions already fixed in the spec.
+# Fields marked "DEFAULT — confirm" are still open (spec §18) and may need
+# to be changed after the pilot run before the full benchmark.
+# =============================================================================
+
+experiment:
+  name: llm-code-correction-energy-carbon
+  max_attempts: 5                  # LOCKED — 1 initial + up to 4 corrections
+  held_out_test_set: false         # LOCKED — decided against, see spec §17
+
+paths:
+  problems_dir: "data/problems"
+  experiments_dir: "experiments"      # base dir — each run creates experiments/<experiment_id>/ inside it
+  results_dir: "results"              # base dir — each run creates results/<experiment_id>/ inside it
+  prompts_dir: "prompts"
+
+hardware:
+  device: "Lenovo LOQ 15IRX10"
+  cpu: "Intel Core i7-13650HX"
+  gpu: "NVIDIA GeForce RTX 5050 8GB GDDR7"
+  ram_gb: 16
+  os: "Windows 11 (native)"                        # LOCKED
+  power_source: "AC only"                          # LOCKED — run only when plugged in
+  gpu_index: 0                                      # NVML device index for the RTX 5050
+  # Settings the pipeline cannot detect — fill these in by hand before each run; the whole
+  # `hardware` block is copied into experiment_metadata.json (spec §2).
+  windows_power_mode: "Best performance"                          # e.g. "Best performance"
+  lenovo_thermal_mode: "Performance"                         # e.g. "Performance"
+  battery_conservation: "off"
+                          # e.g. "off"
+
+energy:
+  gpu:
+    backend: "nvml"
+    sample_interval_ms: 100        # used only if the onboard energy counter is unavailable
+  cpu:
+    # "rapl_measured" requires LibreHardwareMonitorLib.dll (see README) and pythonnet.
+    # If it can't be loaded/read at startup, the pipeline automatically falls back to
+    # "estimated_constant_power" and tags every affected record with that method —
+    # confirm which one is actually active in your pilot run (spec §19).
+    librehardwaremonitor_dll_path: "C:/LibreHardwareMonitor/LibreHardwareMonitorLib.dll"
+    sample_interval_ms: 100
+    estimated_tdp_watts: 55.0      # only used if RAPL access fails — CPU's rated TDP as a floor estimate
+
+idle_baseline:
+  measure_on_startup: true
+  window_seconds: 60
+
+carbon:
+  # NOT YET PINNED — see spec §11. The pipeline refuses to run until this is filled in,
+  # so a guessed value is never silently used.
+  intensity_g_per_kwh: 696
+  intensity_source: "Ember 2025 (Bangladesh grid, Dhaka), as reported by World Power Monitor and Greencalculus, 2025 data year."  # LOCKED — source of the above value  
+  geographic_scope: "Bangladesh grid (Dhaka)"
+  year: 2025
+
+model:
+  name: "mistralai/Mistral-7B-Instruct-v0.3"   # DEFAULT — confirm, spec §18
+  quantization: "4-bit-NF4"          # DEFAULT — confirm, spec §18
+  temperature: 0.2
+  max_new_tokens: 1024
+  device_map: "cuda:0"
+  seed: 42                           # set once at startup for a reproducible run; null = unseeded
+
+generation:
+  language: "cpp"
+  standard: "c++17"
+
+sandbox:
+  docker_image: "green-llm-sandbox:latest"
+  compile_timeout_seconds: 15
+  test_timeout_seconds: 2           # per-test wall clock limit; override per-problem if declared
+  memory_limit: "512m"
+  nano_cpus: 1000000000             # 1.0 CPU
+
+failing_test_selection: "lowest_test_id"  # DEFAULT — confirm, spec §18. Only option implemented.
+
+pilot:
+  problem_count: 5                  # DEFAULT — confirm, spec §18
