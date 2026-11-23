@@ -1,0 +1,32 @@
+{
+  "problem_id": "HR_E_010",
+  "source": "HackerRank",
+  "source_url": "https://www.hackerrank.com/challenges/jesse-and-cookies/problem",
+  "difficulty": "easy",
+  "title": "Jesse and Cookies",
+  "description": "Jesse loves cookies and wants the sweetness of some cookies to be greater than a given value k. To do this, two cookies with the least sweetness are repeatedly mixed. This creates a special combined cookie with sweetness equal to (1 * least sweet cookie) + (2 * second least sweet cookie). This occurs until all the cookies have a sweetness greater than or equal to k. Given the sweetness of a number of cookies, determine the minimum number of operations required. If it is not possible, return -1.",
+  "input_format": "The first line contains two space-separated integers n and k, the number of cookies and the minimum required sweetness respectively. The next line contains n space-separated integers, A[i], representing the sweetness of each cookie.",
+  "output_format": "Print the minimum number of operations required to increase the sweetness of all cookies to at least k. If it is not possible, print -1.",
+  "constraints": [
+    "1 <= n <= 10^6",
+    "0 <= k <= 10^9",
+    "0 <= A[i] <= 10^6"
+  ],
+  "topics": [
+    "data_structures",
+    "heap",
+    "priority_queue",
+    "greedy",
+    "algorithms"
+  ],
+  "language": "C++17",
+  "execution_format": "stdin_stdout",
+  "output_comparator": "whitespace_normalized",
+  "test_cases": [
+    {
+      "test_id": 0,
+      "input": "6 7\n1 2 3 9 10 12",
+      "expected_output": "2"
+    }
+  ]
+}

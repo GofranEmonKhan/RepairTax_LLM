@@ -1,0 +1,29 @@
+{
+  "problem_id": "HR_H_005",
+  "source": "HackerRank",
+  "source_url": "https://www.hackerrank.com/challenges/taste-of-win",
+  "difficulty": "hard",
+  "title": "Tastes Like Winning",
+  "description": "Stephanie just learned about a game called *Nim* in which there are two players and n piles of stones. During each turn, a player must choose any non-empty pile and take as many stones as they want. The first player who cannot complete their turn (i.e., because all piles are empty) loses.\n\nStephanie knows that, for each start position in this game, it's possible to know which player will win (i.e., the first or second player) if both players play optimally. Now she wants to know the number of different games that exist that satisfy all of the following conditions:\n\n- The game starts with n non-empty piles and each pile contains less than 2^m stones.\n- All the piles contain pairwise different numbers of stones.\n- The first player wins if that player moves optimally.\n\nHelp Stephanie by finding and printing the number of such games satisfying all the above criteria, modulo 10^9 + 7.",
+  "input_format": "The first line contains two space-separated integers describing the respective values of n and m.",
+  "output_format": "Print the number of such games, modulo 10^9 + 7.",
+  "constraints": [
+    "1 <= n, m <= 10^7"
+  ],
+  "topics": [
+    "game_theory",
+    "combinatorics",
+    "dynamic_programming",
+    "mathematics"
+  ],
+  "language": "C++17",
+  "execution_format": "stdin_stdout",
+  "output_comparator": "whitespace_normalized",
+  "test_cases": [
+    {
+      "test_id": 0,
+      "input": "2 2",
+      "expected_output": "6"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "problem_id": "HR_E_009",
+  "source": "HackerRank",
+  "source_url": "https://www.hackerrank.com/challenges/maximum-element",
+  "difficulty": "easy",
+  "title": "Maximum Element",
+  "description": "You have an empty sequence, and you will be given N queries. Each query is one of these three types:\n\n1 x -Push the element x into the stack.\n2 -Delete the element present at the top of the stack.\n3 -Print the maximum element in the stack.",
+  "input_format": "The first line of input contains an integer, n. The next n lines each contain an above mentioned query.",
+  "output_format": "For each type 3 query, print the maximum element currently in the stack on a new line.",
+  "constraints": [
+    "1 <= n <= 10^5",
+    "1 <= x <= 10^9",
+    "1 <= type <= 3",
+    "All queries are valid."
+  ],
+  "topics": [
+    "stacks",
+    "data_structures",
+    "queries"
+  ],
+  "language": "C++17",
+  "execution_format": "stdin_stdout",
+  "output_comparator": "whitespace_normalized",
+  "test_cases": [
+    {
+      "test_id": 0,
+      "input": "10\n1 97\n2\n1 20\n2\n1 26\n1 20\n2\n3\n1 91\n3",
+      "expected_output": "26\n91"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "problem_id": "HR_M_006",
+  "source": "HackerRank",
+  "source_url": "https://www.hackerrank.com/challenges/sparse-arrays",
+  "difficulty": "medium",
+  "title": "Sparse Arrays",
+  "description": "There is a collection of input strings and a collection of query strings. For each query string, determine how many times it occurs in the list of input strings. Return an array of the results.",
+  "input_format": "The first line contains and integer n, the size of stringList[].\nEach of the next n lines contains a string stringList[i].\nThe next line contains q, the size of queries[].\nEach of the next q lines contains a string queries[i].",
+  "output_format": "For each query, print the number of occurrences of the query string in stringList on a new line.",
+  "constraints": [
+    "1 <= n <= 1000",
+    "1 <= q <= 1000",
+    "1 <= |stringList[i]|,|queries[i]| <= 20 ."
+  ],
+  "topics": [
+    "arrays",
+    "hash_maps",
+    "strings",
+    "data_structures"
+  ],
+  "language": "C++17",
+  "execution_format": "stdin_stdout",
+  "output_comparator": "whitespace_normalized",
+  "test_cases": [
+    {
+      "test_id": 0,
+      "input": "4\naba\nbaba\naba\nxzxb\n3\naba\nxzxb\nab",
+      "expected_output": "2\n1\n0"
+    }
+  ]
+}

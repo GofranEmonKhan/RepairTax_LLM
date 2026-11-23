@@ -1,0 +1,28 @@
+Correct the following C++17 solution.
+
+Problem ID: {problem_id}
+Title: {title}
+
+Problem Description:
+{description}
+
+Input Format:
+{input_format}
+
+Output Format:
+{output_format}
+
+Constraints:
+{constraints}
+
+Previous Solution:
+{previous_code}
+
+Execution Feedback:
+Test ID: {test_id}
+Failure type: {failure_type_label}
+
+{failure_detail}
+
+Correct the issue while preserving the required output and problem
+constraints. Return the complete corrected C++17 source code only.

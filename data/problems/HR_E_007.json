@@ -1,0 +1,29 @@
+{
+  "problem_id": "HR_E_007",
+  "source": "HackerRank",
+  "source_url": "https://www.hackerrank.com/challenges/2d-array",
+  "difficulty": "easy",
+  "title": "2D Array - DS",
+  "description": "Given a 6 x 6 2D array, arr, an hourglass is a subset of values with indices falling in the following pattern:\n\n```\na b c\nd\ne f g\n```\n\nThere are 16 hourglasses in a 6 x 6 array. The hourglass sum is the sum of the values in an hourglass. Calculate the hourglass sum for every hourglass in arr, then print the maximum hourglass sum.\n\n**Note:** If you have already solved the Java domain's *Java 2D Array* challenge, you may wish to skip this challenge.",
+  "input_format": "Each of the 6 lines of inputs arr[i] contains 6 space-separated integers arr[i][j].",
+  "output_format": "Print the largest (maximum) hourglass sum found in the 6x6 array.",
+  "constraints": [
+    "-9 <= arr[i][j] <= 9",
+    "0 <= i,j <= 5"
+  ],
+  "topics": [
+    "arrays",
+    "matrices",
+    "data_structures"
+  ],
+  "language": "C++17",
+  "execution_format": "stdin_stdout",
+  "output_comparator": "whitespace_normalized",
+  "test_cases": [
+    {
+      "test_id": 0,
+      "input": "1 1 1 0 0 0\n0 1 0 0 0 0\n1 1 1 0 0 0\n0 0 2 4 4 0\n0 0 0 2 0 0\n0 0 1 2 4 0",
+      "expected_output": "19"
+    }
+  ]
+}

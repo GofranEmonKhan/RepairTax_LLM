@@ -1,0 +1,40 @@
+{
+  "problem_id": "HR_M_004",
+  "source": "HackerRank",
+  "source_url": "https://www.hackerrank.com/challenges/crossword-puzzle",
+  "difficulty": "medium",
+  "title": "Crossword Puzzle",
+  "description": "A 10 x 10 Crossword grid is provided to you, along with a set of words (or names of places) which need to be filled into the grid. Cells are marked either `+` or `-`. Cells marked with a `-` are to be filled with the word list.",
+  "input_format": "Each of the first 10 lines represents crossword[i], each of which has 10 characters, crossword[i][j].\n\nThe last line contains a string consisting of semicolon delimited words[i] to fit.",
+  "output_format": "Position the words appropriately in the 10 x 10 grid, then return your array of strings for printing.",
+  "constraints": [
+    "1 <= | words | <= 10",
+    "crossword[i][j] in {+,-}",
+    "words[i][j] in ascii[A-Z]"
+  ],
+  "topics": [
+    "recursion",
+    "backtracking",
+    "algorithms"
+  ],
+  "language": "C++17",
+  "execution_format": "stdin_stdout",
+  "output_comparator": "whitespace_normalized",
+  "test_cases": [
+    {
+      "test_id": 0,
+      "input": "+-++++++++\n+-++++++++\n+-++++++++\n+-----++++\n+-+++-++++\n+-+++-++++\n+++++-++++\n++------++\n+++++-++++\n+++++-++++\nLONDON;DELHI;ICELAND;ANKARA",
+      "expected_output": "+L++++++++\n+O++++++++\n+N++++++++\n+DELHI++++\n+O+++C++++\n+N+++E++++\n+++++L++++\n++ANKARA++\n+++++N++++\n+++++D++++"
+    },
+    {
+      "test_id": 1,
+      "input": "+-++++++++\n+-++++++++\n+-------++\n+-++++++++\n+-++++++++\n+------+++\n+-+++-++++\n+++++-++++\n+++++-++++\n++++++++++\nAGRA;NORWAY;ENGLAND;GWALIOR",
+      "expected_output": "+E++++++++\n+N++++++++\n+GWALIOR++\n+L++++++++\n+A++++++++\n+NORWAY+++\n+D+++G++++\n+++++R++++\n+++++A++++\n++++++++++"
+    },
+    {
+      "test_id": 2,
+      "input": "++++++-+++\n++------++\n++++++-+++\n++++++-+++\n+++------+\n++++++-+-+\n++++++-+-+\n++++++++-+\n++++++++-+\n++++++++-+\nICELAND;MEXICO;PANAMA;ALMATY",
+      "expected_output": "++++++I+++\n++MEXICO++\n++++++E+++\n++++++L+++\n+++PANAMA+\n++++++N+L+\n++++++D+M+\n++++++++A+\n++++++++T+\n++++++++Y+"
+    }
+  ]
+}

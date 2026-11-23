@@ -1,0 +1,28 @@
+{
+  "problem_id": "HR_M_001",
+  "source": "HackerRank",
+  "source_url": "https://www.hackerrank.com/challenges/extra-long-factorials",
+  "difficulty": "medium",
+  "title": "Extra Long Factorials",
+  "description": "The *factorial* of the integer n, written n!, is defined as:\n\n$n! = n x (n-1) x (n-2) x *s x 3 x 2 x 1$\n\nCalculate and print the factorial of a given integer.\n\n**Note:** Factorials of n > 20 can't be stored even in a 64-bit long long variable. Big integers must be used for such calculations. Languages like Java, Python, Ruby etc. can handle big integers, but we need to write additional code in C/C++ to handle huge values.\n\nWe recommend solving this challenge using BigIntegers.",
+  "input_format": "Input consists of a single integer n",
+  "output_format": "Print the factorial of n.",
+  "constraints": [
+    "1 <= n <= 100"
+  ],
+  "topics": [
+    "mathematics",
+    "big_integers",
+    "algorithms"
+  ],
+  "language": "C++17",
+  "execution_format": "stdin_stdout",
+  "output_comparator": "whitespace_normalized",
+  "test_cases": [
+    {
+      "test_id": 0,
+      "input": "25",
+      "expected_output": "15511210043330985984000000"
+    }
+  ]
+}

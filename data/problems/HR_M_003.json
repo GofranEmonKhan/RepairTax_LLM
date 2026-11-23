@@ -1,0 +1,39 @@
+{
+  "problem_id": "HR_M_003",
+  "source": "HackerRank",
+  "source_url": "https://www.hackerrank.com/challenges/common-child",
+  "difficulty": "medium",
+  "title": "Common Child",
+  "description": "A string is said to be a child of a another string if it can be formed by deleting 0 or more characters from the other string. Letters cannot be rearranged. Given two strings of equal length, what's the longest string that can be constructed such that it is a child of both?",
+  "input_format": "There are two lines, each with a string, s1 and s2.",
+  "output_format": "Print the length of the longest string which is a common child of both input strings.",
+  "constraints": [
+    "1 <= |s1|, |s2| <= 5000 where |s| means \"the length of s\"",
+    "All characters are upper case in the range ascii[A-Z]."
+  ],
+  "topics": [
+    "dynamic_programming",
+    "strings",
+    "longest_common_subsequence"
+  ],
+  "language": "C++17",
+  "execution_format": "stdin_stdout",
+  "output_comparator": "whitespace_normalized",
+  "test_cases": [
+    {
+      "test_id": 0,
+      "input": "AA\nBB",
+      "expected_output": "0"
+    },
+    {
+      "test_id": 1,
+      "input": "SHINCHAN\nNOHARAAA",
+      "expected_output": "3"
+    },
+    {
+      "test_id": 2,
+      "input": "ABCDEF\nFBDAMN",
+      "expected_output": "2"
+    }
+  ]
+}

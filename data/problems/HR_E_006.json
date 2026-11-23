@@ -1,0 +1,29 @@
+{
+  "problem_id": "HR_E_006",
+  "source": "HackerRank",
+  "source_url": "https://www.hackerrank.com/challenges/print-the-elements-of-a-linked-list",
+  "difficulty": "easy",
+  "title": "Print the Elements of a Linked List",
+  "description": "This exercise focuses on traversing a linked list. You are given a pointer to the head node of a linked list. The task is to print the data of each node, one per line. If the head pointer is null, indicating the list is empty, nothing should be printed.",
+  "input_format": "The first line of input contains n, the number of elements in the linked list.\nThe next n lines contain one element each, the data values for each node.",
+  "output_format": "Print each integer value of the linked list elements, each on a new line.",
+  "constraints": [
+    "1 <= n <= 1000",
+    "1 <= list[i] <= 1000, where list[i] is the i^th element of the linked list."
+  ],
+  "topics": [
+    "linked_lists",
+    "data_structures",
+    "traversal"
+  ],
+  "language": "C++17",
+  "execution_format": "stdin_stdout",
+  "output_comparator": "whitespace_normalized",
+  "test_cases": [
+    {
+      "test_id": 0,
+      "input": "2\n16\n13",
+      "expected_output": "16\n13"
+    }
+  ]
+}

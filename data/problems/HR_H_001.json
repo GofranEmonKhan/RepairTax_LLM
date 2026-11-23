@@ -1,0 +1,42 @@
+{
+  "problem_id": "HR_H_001",
+  "source": "HackerRank",
+  "source_url": "https://www.hackerrank.com/challenges/matrix-rotation-algo",
+  "difficulty": "hard",
+  "title": "Matrix Layer Rotation",
+  "description": "You are given a 2D matrix of dimension m x n and a positive integer r. You have to rotate the matrix r times and print the resultant matrix. Rotation should be in anti-clockwise direction.\n\nRotation of a 4x5 matrix is represented by the following figure. Note that in one rotation, you have to shift elements by one step only.\n\n![matrix-rotation](https://hr-challenge-images.s3.amazonaws.com/2517/matrix-rotation.png)\n\nIt is guaranteed that the minimum of _m_ and _n_ will be even.",
+  "input_format": "The first line contains three space separated integers, m, n, and r, the number of rows and columns in matrix, and the required rotation.\nThe next m lines contain n space-separated integers representing the elements of a row of matrix.",
+  "output_format": "Print each row of the rotated matrix on a new line, where the elements of each row are space-separated integers.",
+  "constraints": [
+    "2 <= m, n <= 300",
+    "1 <= r <= 10^9",
+    "min(m, n) % 2 = 0",
+    "1 <= matrix[i][j] <= 10^8 where i in [1 ... m] and j in [1 ... n]"
+  ],
+  "topics": [
+    "matrices",
+    "arrays",
+    "implementation",
+    "algorithms"
+  ],
+  "language": "C++17",
+  "execution_format": "stdin_stdout",
+  "output_comparator": "whitespace_normalized",
+  "test_cases": [
+    {
+      "test_id": 0,
+      "input": "4 4 2\n1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16",
+      "expected_output": "3 4 8 12\n2 11 10 16\n1 7 6 15\n5 9 13 14"
+    },
+    {
+      "test_id": 1,
+      "input": "5 4 7\n1 2 3 4\n7 8 9 10\n13 14 15 16\n19 20 21 22\n25 26 27 28",
+      "expected_output": "28 27 26 25\n22 9 15 19\n16 8 21 13\n10 14 20 7\n4 3 2 1"
+    },
+    {
+      "test_id": 2,
+      "input": "2 2 3\n1 1\n1 1",
+      "expected_output": "1 1\n1 1"
+    }
+  ]
+}

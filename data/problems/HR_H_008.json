@@ -1,0 +1,36 @@
+{
+  "problem_id": "HR_H_008",
+  "source": "HackerRank",
+  "source_url": "https://www.hackerrank.com/challenges/no-prefix-set",
+  "difficulty": "hard",
+  "title": "No Prefix Set",
+  "description": "There is a given list of strings where each string contains only lowercase letters from a-j, inclusive. The set of strings is said to be a **GOOD SET** if no string is a prefix of another string. In this case, print **GOOD SET**. Otherwise, print **BAD SET** on the first line followed by the string being checked.\n\n**Note** If two strings are identical, they are prefixes of each other.",
+  "input_format": "First line contains n, the size of words[].\nThen next n lines each contain a string, words[i].",
+  "output_format": "If the set is good, print GOOD SET. Otherwise, print BAD SET on the first line and the first offending string on the second line.",
+  "constraints": [
+    "1 <= n <= 10^5",
+    "1 <= the length of words[i] <= 60",
+    "All letters in words[i] are in the range 'a' through 'j', inclusive."
+  ],
+  "topics": [
+    "tries",
+    "strings",
+    "trees",
+    "data_structures"
+  ],
+  "language": "C++17",
+  "execution_format": "stdin_stdout",
+  "output_comparator": "whitespace_normalized",
+  "test_cases": [
+    {
+      "test_id": 0,
+      "input": "7\naab\ndefgab\nabcde\naabcde\ncedaaa\nbbbbbbbbbb\njabjjjad",
+      "expected_output": "BAD SET\naabcde"
+    },
+    {
+      "test_id": 1,
+      "input": "4\naab\naac\naacghgh\naabghgh",
+      "expected_output": "BAD SET\naacghgh"
+    }
+  ]
+}

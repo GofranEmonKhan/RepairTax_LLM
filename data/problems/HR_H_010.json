@@ -1,0 +1,37 @@
+{
+  "problem_id": "HR_H_010",
+  "source": "HackerRank",
+  "source_url": "https://www.hackerrank.com/challenges/tree-coordinates",
+  "difficulty": "hard",
+  "title": "Tree Coordinates",
+  "description": "We consider [metric space](https://en.wikipedia.org/wiki/Metric_space) to be a pair, (M, \\rho), where M is a set and \\rho: M x M \\rightarrow \\mathbb{R} such that the following conditions hold:\n\n- \\rho(x, y) >= 0\n- \\rho(x, y) = 0 \\Leftrightarrow x = y\n- \\rho(x, y) = \\rho(y, x)\n- \\rho(x, y) <= \\rho(x, z) + \\rho(z, y)\n\nwhere \\rho(x, y) is the *distance* between points x and y.\n\nLet's define the *product* of two metric spaces, (M_1, \\rho_1) x (M_2, \\rho_2), to be (M, \\rho) such that:\n\n- M = M_1 x M_2\n- \\rho(z_1, z_2) = \\rho_1(x_1, x_2) + \\rho_2(y_1, y_2), where z_1 = (x_1, y_1), z_2 = (x_2, y_2).\n\nSo, it follows logically that (M, \\rho) is also a metric space. We then define *squared metric space*, (M, \\rho)^2, to be the product of a metric space multiplied with itself: (M, \\rho) x (M, \\rho).",
+  "input_format": "The first line contains two space-separated positive integers describing the respective values of n (the number of vertices in T) and m (the number of given points).\nEach line i of the n - 1 subsequent lines contains two space-separated integers, u_i and v_i, describing edge i in T.\nEach line j of the m subsequent lines contains two space-separated integers describing the respective values of x_j and y_j for point j.",
+  "output_format": "Print a single non-negative integer denoting the maximum distance between two of the given points in metric space (T, \\rho)^2.",
+  "constraints": [
+    "1 <= n <= 7.5 * 10^4",
+    "2 <= m <= 7.5 * 10^4",
+    "1 <= u_i, v_i <= n",
+    "1 <= x_j, y_j <= n"
+  ],
+  "topics": [
+    "trees",
+    "centroid_decomposition",
+    "heavy_light_decomposition",
+    "data_structures"
+  ],
+  "language": "C++17",
+  "execution_format": "stdin_stdout",
+  "output_comparator": "whitespace_normalized",
+  "test_cases": [
+    {
+      "test_id": 0,
+      "input": "2 2\n1 2\n1 2\n2 1",
+      "expected_output": "2"
+    },
+    {
+      "test_id": 1,
+      "input": "7 3\n1 2\n2 3\n3 4\n4 5\n5 6\n6 7\n3 6\n4 5\n5 5",
+      "expected_output": "3"
+    }
+  ]
+}

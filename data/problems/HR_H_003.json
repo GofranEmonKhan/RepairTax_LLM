@@ -1,0 +1,31 @@
+{
+  "problem_id": "HR_H_003",
+  "source": "HackerRank",
+  "source_url": "https://www.hackerrank.com/challenges/string-similarity",
+  "difficulty": "hard",
+  "title": "String Similarity",
+  "description": "For two strings A and B, we define the similarity of the strings to be the length of the longest prefix common to both strings. Calculate the sum of similarities of a string S with each of it's suffixes.",
+  "input_format": "The first line contains the number of test cases *t*.\nEach of the next *t* lines contains a string to process, s.",
+  "output_format": "Output *t* lines, each containing the answer for the corresponding test case.",
+  "constraints": [
+    "1 <= t <= 10",
+    "1 <= |s| <= 100000",
+    "s is composed of characters in the range ascii[a-z]"
+  ],
+  "topics": [
+    "strings",
+    "z_algorithm",
+    "suffix_automaton",
+    "algorithms"
+  ],
+  "language": "C++17",
+  "execution_format": "stdin_stdout",
+  "output_comparator": "whitespace_normalized",
+  "test_cases": [
+    {
+      "test_id": 0,
+      "input": "2\nababaa\naa",
+      "expected_output": "11\n3"
+    }
+  ]
+}

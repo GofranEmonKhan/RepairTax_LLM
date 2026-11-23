@@ -1,0 +1,19 @@
+Solve the following programming problem.
+
+Problem ID: {problem_id}
+Difficulty: {difficulty}
+Title: {title}
+
+Problem Description:
+{description}
+
+Input Format:
+{input_format}
+
+Output Format:
+{output_format}
+
+Constraints:
+{constraints}
+
+Provide a complete C++17 solution following the system instructions.

@@ -1,0 +1,30 @@
+{
+  "problem_id": "HR_M_007",
+  "source": "HackerRank",
+  "source_url": "https://www.hackerrank.com/challenges/balanced-brackets",
+  "difficulty": "medium",
+  "title": "Balanced Brackets",
+  "description": "A bracket is considered to be any one of the following characters: `(`, `)`, `{`, `}`, `[`, or `]`.\n\nTwo brackets are considered to be a *matched pair* if the an opening bracket (i.e., `(`, `[`, or `{`) occurs to the left of a closing bracket (i.e., `)`, `]`, or `}`) *of the exact same type*. There are three types of matched pairs of brackets: `[]`, `{}`, and `()`.\n\nA matching pair of brackets is *not balanced* if the set of brackets it encloses are not matched. By this logic, we say a sequence of brackets is *balanced* if the following conditions are met:\n\n- It contains no unmatched brackets.\n- The subset of brackets enclosed within the confines of a matched pair of brackets is also a matched pair of brackets.\n\nGiven n strings of brackets, determine whether each sequence of brackets is balanced. If a string is balanced, return `YES`. Otherwise, return `NO`.",
+  "input_format": "The first line contains a single integer n, the number of strings.\nEach of the next n lines contains a single string s, a sequence of brackets.",
+  "output_format": "For each string, return `YES` or `NO`.",
+  "constraints": [
+    "1 <= n <= 10^3",
+    "1<= |s| <= 10^3, where |s| is the length of the sequence.",
+    "All chracters in the sequences in { **{**, **}**, **(**, **)**, **[**, **]** }."
+  ],
+  "topics": [
+    "stacks",
+    "strings",
+    "data_structures"
+  ],
+  "language": "C++17",
+  "execution_format": "stdin_stdout",
+  "output_comparator": "whitespace_normalized",
+  "test_cases": [
+    {
+      "test_id": 0,
+      "input": "3\n{[()]}\n{[(])}\n{{[[(())]]}}",
+      "expected_output": "YES\nNO\nYES"
+    }
+  ]
+}

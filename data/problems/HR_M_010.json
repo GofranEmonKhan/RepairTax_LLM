@@ -1,0 +1,31 @@
+{
+  "problem_id": "HR_M_010",
+  "source": "HackerRank",
+  "source_url": "https://www.hackerrank.com/challenges/array-and-simple-queries",
+  "difficulty": "medium",
+  "title": "Array and Simple Queries",
+  "description": "Given two numbers N and M. N indicates the number of elements in the array A[1-indexed] and M indicates number of queries. You are given M queries. Queries can be of two types, type 1 and type 2. Perform two types of queries on the array A[]: Type 1: remove elements from i to j and add them to the front. Type 2: remove elements from i to j and add them to the back. Print |A[1] - A[N]| of the resulting array after the execution of M queries followed by the resulting array.",
+  "input_format": "First line consists of two space-separated integers, N and M. Second line contains N integers, which represent the elements of the array. M queries follow. Each line contains a query of either type 1 or type 2 in the form type i j",
+  "output_format": "Print the absolute value abs(A[1] - A[N]) in the first line. Print elements of the resulting array in the second line, each element separated by a single space.",
+  "constraints": [
+    "1 <= N, M <= 10^5",
+    "1 <= A[i] <= 10^9",
+    "1 <= i <= j <= N"
+  ],
+  "topics": [
+    "arrays",
+    "data_structures",
+    "range_queries",
+    "deque"
+  ],
+  "language": "C++17",
+  "execution_format": "stdin_stdout",
+  "output_comparator": "whitespace_normalized",
+  "test_cases": [
+    {
+      "test_id": 27,
+      "input": "8 4\n1 2 3 4 5 6 7 8\n1 2 4\n2 3 5\n1 4 7\n2 1 4",
+      "expected_output": "1\n2 3 6 5 7 8 4 1"
+    }
+  ]
+}

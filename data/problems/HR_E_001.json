@@ -1,0 +1,29 @@
+{
+  "problem_id": "HR_E_001",
+  "source": "HackerRank",
+  "source_url": "https://www.hackerrank.com/challenges/two-characters",
+  "difficulty": "easy",
+  "title": "Two Characters",
+  "description": "Given a string, remove characters until the string is made up of any two alternating characters. When you choose a character to remove, all instances of that character must be removed. Determine the longest string possible that contains just two alternating letters.",
+  "input_format": "The first line contains a single integer that denotes the length of s.\nThe second line contains string s.",
+  "output_format": "Print the length of the longest valid string that can be formed, or 0 if none can be formed.",
+  "constraints": [
+    "1 <= length of s <= 1000",
+    "s[i] in ascii[a-z]"
+  ],
+  "topics": [
+    "strings",
+    "algorithms",
+    "brute_force"
+  ],
+  "language": "C++17",
+  "execution_format": "stdin_stdout",
+  "output_comparator": "whitespace_normalized",
+  "test_cases": [
+    {
+      "test_id": 0,
+      "input": "10\nbeabeefeab",
+      "expected_output": "5"
+    }
+  ]
+}

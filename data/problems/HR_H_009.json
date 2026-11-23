@@ -1,0 +1,30 @@
+{
+  "problem_id": "HR_H_009",
+  "source": "HackerRank",
+  "source_url": "https://www.hackerrank.com/challenges/and-xor-or",
+  "difficulty": "hard",
+  "title": "AND xor OR",
+  "description": "Given an array A[] of N distinct elements. Let M_1 and M_2 be the smallest and the next smallest element in the interval [ L , R ] where 1 <= L < R <= N.\n\nS_i = (((M_1 \\wedge M_2) \\oplus (M_1 \\vee M_2)) \\wedge (M_1 \\oplus M_2)).\n\nwhere \\wedge, \\vee, \\oplus, are the bitwise operators AND, OR and XOR respectively.\nYour task is to find the maximum possible value of S_i.",
+  "input_format": "First line contains integer N.\nSecond line contains N integers, representing elements of the array A[].\n\n**",
+  "output_format": "Print the value of maximum possible value of S_i.",
+  "constraints": [
+    "1 < N <= 10^6",
+    "1 <= A_i <= 10^9"
+  ],
+  "topics": [
+    "stacks",
+    "monotone_stack",
+    "bit_manipulation",
+    "data_structures"
+  ],
+  "language": "C++17",
+  "execution_format": "stdin_stdout",
+  "output_comparator": "whitespace_normalized",
+  "test_cases": [
+    {
+      "test_id": 0,
+      "input": "5\n9 6 3 5 2",
+      "expected_output": "15"
+    }
+  ]
+}

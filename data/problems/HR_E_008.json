@@ -1,0 +1,29 @@
+{
+  "problem_id": "HR_E_008",
+  "source": "HackerRank",
+  "source_url": "https://www.hackerrank.com/challenges/print-the-elements-of-a-linked-list-in-reverse",
+  "difficulty": "easy",
+  "title": "Print in Reverse",
+  "description": "Given a pointer to the head of a singly-linked list, print each data value from the reversed list. If the given list is empty, do not print anything.",
+  "input_format": "The first line of input contains t, the number of test cases.\n\nThe input of each test case is as follows:\n\n- The first line contains an integer n, the number of elements in the list.\n- Each of the next *n* lines contains a data element for a list node.",
+  "output_format": "For each test case, print the data values of the linked list in reverse order, one per line.",
+  "constraints": [
+    "1 <= n <= 1000",
+    "1 <= list[i] <= 1000, where list[i] is the i^th element in the list."
+  ],
+  "topics": [
+    "linked_lists",
+    "recursion",
+    "data_structures"
+  ],
+  "language": "C++17",
+  "execution_format": "stdin_stdout",
+  "output_comparator": "whitespace_normalized",
+  "test_cases": [
+    {
+      "test_id": 0,
+      "input": "3\n5\n16\n12\n4\n2\n5\n3\n7\n3\n9\n5\n5\n1\n18\n3\n13",
+      "expected_output": "5\n2\n4\n12\n16\n9\n3\n7\n13\n3\n18\n1\n5"
+    }
+  ]
+}

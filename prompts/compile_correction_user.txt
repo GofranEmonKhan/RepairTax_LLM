@@ -1,0 +1,21 @@
+Correct the following C++17 solution.
+
+Problem ID: {problem_id}
+Title: {title}
+Problem Description: {description}
+Input Format: {input_format}
+Output Format: {output_format}
+Constraints: {constraints}
+
+Previous Solution:
+{previous_code}
+
+Failure type: COMPILATION_ERROR
+Compiler: g++ (C++17)
+Compiler diagnostics:
+{compiler_stderr}
+
+The program did not compile. No test cases were executed.
+
+Correct the compilation error while preserving the original problem
+requirements.

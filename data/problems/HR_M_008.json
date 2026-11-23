@@ -1,0 +1,30 @@
+{
+  "problem_id": "HR_M_008",
+  "source": "HackerRank",
+  "source_url": "https://www.hackerrank.com/challenges/down-to-zero-ii",
+  "difficulty": "medium",
+  "title": "Down to Zero II",
+  "description": "You are given Q queries. Each query consists of a single number N. You can perform any of the 2 operations on N in each move:\n\n1: If we take 2 integers a and b where N = ax b(a \\ne 1, b \\ne 1), then we can change N=max(a,b)\n\n2: Decrease the value of N by 1.\n\nDetermine the minimum number of moves required to reduce the value of N to 0.",
+  "input_format": "The first line contains the integer Q.\nThe next Q lines each contain an integer, N.",
+  "output_format": "Output Q lines. Each line containing the minimum number of moves required to reduce the value of N to 0.",
+  "constraints": [
+    "1 <= Q <= 10^3",
+    "0 <= N <= 10^6"
+  ],
+  "topics": [
+    "breadth_first_search",
+    "queues",
+    "dynamic_programming",
+    "data_structures"
+  ],
+  "language": "C++17",
+  "execution_format": "stdin_stdout",
+  "output_comparator": "whitespace_normalized",
+  "test_cases": [
+    {
+      "test_id": 0,
+      "input": "2\n3\n4",
+      "expected_output": "3\n3"
+    }
+  ]
+}

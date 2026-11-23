@@ -1,0 +1,40 @@
+{
+  "problem_id": "HR_H_002",
+  "source": "HackerRank",
+  "source_url": "https://www.hackerrank.com/challenges/chief-hopper",
+  "difficulty": "hard",
+  "title": "Chief Hopper",
+  "description": "Chief's bot is playing an old DOS based game. There is a row of buildings of different heights arranged at each index along a number line. The bot starts at building 0 and at a height of 0. You must determine the minimum energy his bot needs at the start so that he can jump to the top of each building without his energy going below zero.\n\nUnits of height relate directly to units of energy. The bot's energy level is calculated as follows:\n\n- If the bot's botEnergy is less than the height of the building, his newEnergy = botEnergy - (height - botEnergy)\n- If the bot's botEnergy is greater than the height of the building, his newEnergy = botEnergy + (botEnergy - height)",
+  "input_format": "The first line contains an integer n, the number of buildings.\n\nThe next line contains n space-separated integers arr[1]..arr[n], the heights of the buildings.",
+  "output_format": "Print the minimum starting energy required for the bot to jump across all buildings without energy dropping below 0.",
+  "constraints": [
+    "1 <= n <= 10^5",
+    "1 <= arr[i] <= 10^5 where 1 <= i <= n"
+  ],
+  "topics": [
+    "greedy",
+    "mathematics",
+    "arrays",
+    "algorithms"
+  ],
+  "language": "C++17",
+  "execution_format": "stdin_stdout",
+  "output_comparator": "whitespace_normalized",
+  "test_cases": [
+    {
+      "test_id": 0,
+      "input": "5\n3 4 3 2 4",
+      "expected_output": "4"
+    },
+    {
+      "test_id": 1,
+      "input": "3\n4 4 4",
+      "expected_output": "4"
+    },
+    {
+      "test_id": 2,
+      "input": "3\n1 6 4",
+      "expected_output": "3"
+    }
+  ]
+}

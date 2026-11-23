@@ -1,0 +1,28 @@
+{
+  "problem_id": "HR_E_005",
+  "source": "HackerRank",
+  "source_url": "https://www.hackerrank.com/challenges/game-of-stones-1",
+  "difficulty": "easy",
+  "title": "Game of Stones",
+  "description": "Two players called P1 and P2 are playing a game with a starting number of stones. Player 1 always plays first, and the two players move in alternating turns. The game's rules are as follows:\n\n- In a single move, a player can remove either 2, 3, or 5 stones from the game board.\n- If a player is unable to make a move, that player loses the game.\n\nGiven the starting number of stones, find and print the name of the winner. P1 is named `First` and P2 is named `Second`. Each player plays optimally, meaning they will not make a move that causes them to lose the game if a winning move exists.",
+  "input_format": "The first line contains an integer t, the number of test cases.\nEach of the next t lines contains an integer n, the number of stones in a test case.",
+  "output_format": "On a new line for each test case, print `First` if the first player is the winner. Otherwise print `Second`.",
+  "constraints": [
+    "1 <= n,t <= 100"
+  ],
+  "topics": [
+    "game_theory",
+    "dynamic_programming",
+    "algorithms"
+  ],
+  "language": "C++17",
+  "execution_format": "stdin_stdout",
+  "output_comparator": "whitespace_normalized",
+  "test_cases": [
+    {
+      "test_id": 0,
+      "input": "8\n1\n2\n3\n4\n5\n6\n7\n10",
+      "expected_output": "Second\nFirst\nFirst\nFirst\nFirst\nFirst\nSecond\nFirst"
+    }
+  ]
+}

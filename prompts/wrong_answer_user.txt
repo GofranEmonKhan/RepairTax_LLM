@@ -1,0 +1,38 @@
+Correct the following C++17 solution.
+
+Problem ID: {problem_id}
+Title: {title}
+
+Problem Description:
+{description}
+
+Input Format:
+{input_format}
+
+Output Format:
+{output_format}
+
+Constraints:
+{constraints}
+
+Previous Solution:
+{previous_code}
+
+Execution Feedback:
+Test ID: {test_id}
+Failure type: WRONG_ANSWER
+
+Input:
+{input}
+
+Expected output:
+{expected_output}
+
+Actual output:
+{actual_output}
+
+The program compiled and executed successfully, but its output did not
+match the expected output.
+
+Fix the underlying logic or implementation error. Return the complete
+corrected C++17 source code only.
