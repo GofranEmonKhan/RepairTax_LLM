@@ -1,128 +1,289 @@
-﻿# green-llm-code
+﻿# RepairTax-LLM ⚡
 
-Implementation of `llm-code-correction-energy-carbon-spec.md`. Measures the
-energy and carbon cost of iterative LLM-based C++17 code generation and
-correction, running locally on the Lenovo LOQ 15IRX10 (RTX 5050 8GB, i7-13650HX,
-16GB RAM) under Windows 11.
+[![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![PyTorch CUDA](https://img.shields.io/badge/PyTorch-CUDA-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)](https://pytorch.org/)
+[![Docker Sandbox](https://img.shields.io/badge/Docker-Sandbox-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+[![C++17](https://img.shields.io/badge/C++-17-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)](https://isocpp.org/)
+[![NVIDIA NVML](https://img.shields.io/badge/GPU_Telemetry-NVML-76B900?style=for-the-badge&logo=nvidia&logoColor=white)](https://developer.nvidia.com/management-library-nvml)
+[![CPU RAPL](https://img.shields.io/badge/CPU_Telemetry-Intel_RAPL-0071C5?style=for-the-badge&logo=intel&logoColor=white)](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor)
 
-## 1. Before you run anything
+> **RepairTax-LLM** is an experimental benchmarking pipeline designed to measure the **true energy, carbon, and computational cost** ("repair tax") of iterative LLM-based C++ code generation, compilation, execution, and multi-round automated program repair.
 
-Things in `config.yaml` that need your attention â€” the pipeline refuses to start
-(`config_loader.py`) until the carbon one is set:
+---
 
-1. **`carbon.intensity_g_per_kwh` and `carbon.intensity_source`** â€” pick and
-   cite one documented source for the Bangladesh grid (spec Â§11). Two
-   candidates were found while drafting the spec: Ember/Our World in Data
-   2024 (~562 gCOâ‚‚/kWh) and an aggregated 2025 estimate (~696 gCOâ‚‚/kWh) â€”
-   they disagree, so don't guess; pick one and record it.
-2. **`energy.cpu.librehardwaremonitor_dll_path`** â€” where you put
-   `LibreHardwareMonitorLib.dll` (step 4 below).
-3. **`hardware.windows_power_mode`, `hardware.lenovo_thermal_mode`,
-   `hardware.battery_conservation`** â€” the pipeline can't detect these; write
-   what they are set to before each run (they're copied into the run's metadata).
-4. **`model.name` / `model.quantization`** and **`pilot.problem_count`** â€”
-   both are defaults from spec Â§18, not confirmed decisions. Change them if
-   you want something other than Qwen2.5-7B-Instruct (4-bit NF4) / a 5-problem pilot.
+## 📌 Overview
 
-## 2. Install
+Iterative code generation pipelines repeatedly prompt Large Language Models to diagnose and fix compilation errors, runtime exceptions, and failing unit tests. While functional accuracy increases across iterative repair rounds, the cumulative energy consumption (inference, compilation, execution) and associated carbon footprint can escalate dramatically.
+
+**RepairTax-LLM** provides an end-to-end framework featuring:
+- **Phase-Separated Energy Measurement**: Isolate idle baseline, LLM inference, C++ compilation, and sandboxed test execution energy.
+- **Hardware-Level Telemetry**: Direct GPU sampling via **NVIDIA NVML** and CPU package measurement via **Intel RAPL** (using LibreHardwareMonitor).
+- **Secure Sandboxed Execution**: Automatic warm-container Docker isolation with strict execution timeouts and memory quotas.
+- **Multi-Round Autonomous Repair**: Closed-loop prompt building, syntax extraction, failure attribution, and targeted feedback injection.
+- **Auditable Carbon Attribution**: Computes embodied and operational carbon emissions using regional electrical grid carbon intensities ($g\text{CO}_2/\text{kWh}$).
+
+---
+
+## 🏗️ System Architecture
+
+```mermaid
+flowchart TD
+    subgraph Input ["1. Input & Setup"]
+        Prob["Benchmark Problem JSON\n(Spec + Unit Tests)"]
+        PromptInit["Initial Prompt Builder\n(System + User Spec)"]
+    end
+
+    subgraph LLM ["2. Inference Phase"]
+        Gen["Quantized LLM Engine\n(Hugging Face + BitsAndBytes)"]
+        GPUMon["Live GPU Telemetry\n(NVIDIA NVML @ 100ms)"]
+        Extract["C++ Code Extraction & Validation"]
+    end
+
+    subgraph Sandbox ["3. Compilation & Execution Phase"]
+        DockerEnv["Docker Sandbox Container\n(g++-12 / C++17)"]
+        CPUMon["Live CPU Telemetry\n(RAPL Package Power)"]
+        Runner["Test Suite Evaluator\n(AC / WA / TLE / RE)"]
+    end
+
+    subgraph FeedbackLoop ["4. Autonomous Repair Loop"]
+        FailClass{"Status Check"}
+        Success["All Tests Passed ✅\n(Solution Verified)"]
+        MaxAttempts{"Attempts < Max?"}
+        Term["Exhausted ❌\n(Failed to converge)"]
+        ErrPrompt["Correction Prompt Builder\n(Compiler error / WA / TLE diagnostic)"]
+    end
+
+    subgraph Output ["5. Auditable Telemetry Output"]
+        Logger["Result Logger\n(Append-only JSONL + Raw CSVs)"]
+    end
+
+    Prob --> PromptInit --> Gen
+    Gen -.->|Telemetry| GPUMon
+    Gen --> Extract --> DockerEnv
+    DockerEnv -.->|Telemetry| CPUMon
+    DockerEnv --> Runner --> FailClass
+    
+    FailClass -->|Passed| Success --> Logger
+    FailClass -->|Failed| MaxAttempts
+    MaxAttempts -->|Yes| ErrPrompt --> Gen
+    MaxAttempts -->|No| Term --> Logger
+    GPUMon -.-> Logger
+    CPUMon -.-> Logger
+```
+
+---
+
+## 📂 Directory Layout
+
+```text
+RepairTax_LLM/
+├── docker/
+│   └── Dockerfile                  # Sandboxed C++17 execution container
+├── data/
+│   └── problems/                   # Curated benchmark problems (30 HackerRank tasks)
+│       ├── HR_E_001.json ...       # Easy difficulty tier (10 problems)
+│       ├── HR_M_001.json ...       # Medium difficulty tier (10 problems)
+│       └── HR_H_001.json ...       # Hard difficulty tier (10 problems)
+├── prompts/                        # LLM prompt templates
+│   ├── initial_system.txt          # System context for initial solution drafting
+│   ├── initial_user.txt            # User problem description formatting
+│   ├── correction_system.txt       # System prompt for iterative repair rounds
+│   ├── compile_correction_user.txt # Diagnostics prompt for compiler failure
+│   ├── timeout_or_runtime_user.txt # Diagnostics prompt for TLE or runtime crashes
+│   └── wrong_answer_user.txt       # Diagnostics prompt for failing test assertions
+├── src/                            # Telemetry & execution pipeline source
+│   ├── main.py                     # Primary CLI entry point
+│   ├── orchestrator.py             # Multi-round repair orchestrator loop
+│   ├── llm_client.py               # Hugging Face inference with 4-bit/8-bit quantization
+│   ├── docker_sandbox.py           # Docker container management & isolation
+│   ├── compiler.py                 # Sandboxed g++ compiler runner
+│   ├── test_runner.py              # Test harness & output comparator
+│   ├── energy_monitor_gpu.py       # NVML GPU energy counter & sampling
+│   ├── energy_monitor_cpu.py       # RAPL CPU package power monitor
+│   ├── carbon_tracker.py           # Grid-intensity carbon accounting
+│   ├── result_logger.py            # Append-only result & telemetry persistence
+│   ├── prompt_builder.py           # Dynamic prompt generation
+│   ├── code_extraction.py          # Markdown C++ extraction regex
+│   ├── schema.py                   # Data schemas for attempts and problems
+│   ├── config_loader.py            # YAML validation & configuration loader
+│   └── run_single_problem.py       # Single-problem debugging script
+├── config.yaml                     # Experiment & hardware configuration
+├── requirements.txt                # Python package dependencies
+├── smoke_test.py                   # Sanity check for GPU, CPU, and inference
+└── README.md                       # Project documentation
+```
+
+---
+
+## ⚡ Prerequisites & Setup
+
+### 1. Prerequisites
+- **OS**: Windows 11 (tested natively on Lenovo LOQ 15IRX10) or Linux
+- **GPU**: NVIDIA GPU with CUDA support (e.g., RTX 40/50 series)
+- **Docker**: [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
+- **Python**: Version 3.10 or 3.11 recommended
+
+### 2. Installation
 
 ```bash
-# 1. Install a CUDA-enabled torch build FIRST â€” a plain `pip install torch`
-#    gives you a CPU-only build. Pick the right command for your driver at
-#    https://pytorch.org/get-started/locally/
+# 1. Clone the repository
+git clone https://github.com/GofranEmonKhan/RepairTax_LLM.git
+cd RepairTax_LLM
 
-# 2. Then everything else:
+# 2. Create and activate a virtual environment
+python -m venv venv
+# On Windows:
+.\venv\Scripts\activate
+# On Linux:
+source venv/bin/activate
+
+# 3. Install PyTorch with CUDA support FIRST
+# Check https://pytorch.org/get-started/locally/ for your CUDA version:
+pip install torch --index-url https://download.pytorch.org/whl/cu121
+
+# 4. Install remaining dependencies
 pip install -r requirements.txt
 ```
 
-## 3. Docker Desktop
+---
 
-Install Docker Desktop and make sure it's running before you start the
-pipeline â€” `src/main.py` builds the sandbox image (`docker/Dockerfile`)
-automatically on first run if it isn't already present.
+## ⚙️ Hardware Telemetry Configuration
 
-## 4. CPU energy measurement (RAPL via LibreHardwareMonitor)
+<details>
+<summary><b>🔹 Configuring CPU RAPL Energy Measurement (Windows)</b></summary>
 
-1. Download `LibreHardwareMonitorLib.dll` from the
-   [LibreHardwareMonitor releases page](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor/releases).
-2. Put it somewhere stable, e.g. `C:\LibreHardwareMonitor\LibreHardwareMonitorLib.dll`.
-3. Set `energy.cpu.librehardwaremonitor_dll_path` in `config.yaml` to that path.
-4. **This is not guaranteed to work on this CPU/OS combination** â€” reading
-   RAPL on Windows depends on BIOS/driver permissions (spec Â§2, Â§19). If it
-   can't be loaded or the CPU Package power sensor can't be read, the
-   pipeline automatically falls back to `estimated_constant_power`
-   (`energy.cpu.estimated_tdp_watts` Ã— elapsed time) and prints why. Check
-   the console output and `results/experiment_metadata.json` after your
-   pilot run to see which one actually happened â€” don't assume.
+1. Download `LibreHardwareMonitorLib.dll` from the [LibreHardwareMonitor Releases](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor/releases).
+2. Place the DLL in a permanent directory (e.g. `C:\LibreHardwareMonitor\LibreHardwareMonitorLib.dll`).
+3. Set the absolute path in `config.yaml`:
+   ```yaml
+   energy:
+     cpu:
+       librehardwaremonitor_dll_path: "C:/LibreHardwareMonitor/LibreHardwareMonitorLib.dll"
+       sample_interval_ms: 100
+       estimated_tdp_watts: 55.0
+   ```
+> [!NOTE]
+> If RAPL counters are inaccessible on your motherboard/BIOS, the framework automatically falls back to constant TDP power modeling (`estimated_constant_power`) and records this fallback in the audit metadata.
+</details>
 
-## 5. GPU: force the discrete card
+<details>
+<summary><b>🔹 GPU Dedicated Mode Configuration</b></summary>
 
-In Windows Graphics Settings, set your Python interpreter (or the terminal
-you run it from) to "High performance NVIDIA" â€” otherwise Optimus can route
-the workload to the Intel iGPU while NVML measures an idle RTX 5050 (spec Â§2).
+On laptops with dual GPUs (Intel iGPU + NVIDIA dGPU), ensure Python is bound to the discrete GPU:
+1. Open **Windows Graphics Settings**.
+2. Add your Python executable (`venv/Scripts/python.exe`).
+3. Select **"High performance NVIDIA GPU"** so telemetry correctly records discrete GPU power rather than an idle card.
+</details>
 
-## 6. Add your problems
+<details>
+<summary><b>🔹 Regional Carbon Grid Intensity</b></summary>
 
-Drop your problem JSON files into `data/problems/` â€” one file per problem,
-matching the schema in spec Â§3 (see `data/problems/HR_M_001.json`, already
-included, for the exact shape). Filenames don't matter; problems are loaded
-alphabetically by filename for a deterministic run order.
+Before launching experiments, specify your regional grid emission factor in `config.yaml`:
+```yaml
+carbon:
+  intensity_g_per_kwh: 696
+  intensity_source: "Ember 2025 (Bangladesh grid, Dhaka)"
+  geographic_scope: "Bangladesh grid (Dhaka)"
+  year: 2025
+```
+The pipeline validates this setting upon initialization to prevent ungrounded carbon estimates.
+</details>
 
-## 7. Run
+---
 
+## 🚀 Running Experiments
+
+### Verify the Environment
+Run the smoke test to verify CUDA initialization, 4-bit quantization, Docker connectivity, and sensor bindings:
 ```bash
-# From the project root (relative paths in config.yaml depend on this):
-
-# Pilot first â€” confirms sensors, VRAM, RAM, carbon source before the full run (spec Â§19)
-python -m src.main --pilot
-
-# Full run over everything in data/problems/
-python -m src.main
-
-# Or an arbitrary subset
-python -m src.main --limit 10
-
-# Name a run yourself (must not already exist)
-python -m src.main --pilot --experiment-id EXP_PILOT_A
+python smoke_test.py
 ```
 
-Every run gets its own experiment ID â€” `EXP_001`, `EXP_002`, ... assigned
-automatically. The pipeline **refuses** to write into an ID that already exists,
-so a pilot and a later full run can never overwrite or mix into each other.
-Don't delete pilot output: if you change the measurement configuration, that's a
-new experiment ID by design.
+### Execution Options
 
-## 8. Where results go
+| Execution Command | Description |
+| :--- | :--- |
+| `python -m src.main --pilot` | **Pilot Run**: Executes a small subset of problems to calibrate sensors and verify VRAM/RAM stability. |
+| `python -m src.main` | **Full Benchmark**: Runs through all problems defined in `data/problems/`. |
+| `python -m src.main --limit 5` | **Batched Run**: Runs only the first $N$ problems in alphabetical order. |
+| `python -m src.main --experiment-id EXP_CUSTOM` | **Named Experiment**: Namespaces outputs under a custom ID. |
+| `python -m src.run_single_problem --problem data/problems/HR_E_001.json` | **Isolated Problem**: Runs a single problem for debugging. |
 
+> [!TIP]
+> Each run creates an isolated, collision-proof folder under `experiments/<model_name>/run_NNN/` and `results/<model_name>/run_NNN/`. Existing run IDs are never overwritten.
+
+---
+
+## 📊 Output Telemetry & Logs
+
+At the conclusion of each experiment, outputs are persisted in an auditable format:
+
+```text
+results/<model_name>/run_001/
+├── experiment_metadata.json      # Hardware specs, git commit, seed, driver versions, sensor modes
+├── raw_attempts.jsonl            # Append-only record of every attempt across all problems
+├── problem_results.jsonl         # Summary result and total energy/carbon per problem
+├── sensor_samples.csv            # Millisecond-by-millisecond GPU & CPU telemetry audit trail
+└── analysis/
+    ├── attempt_level.csv         # Flattened tabular attempt metrics
+    ├── problem_level.csv         # Cumulative energy, time, and resolution status per problem
+    └── summary_by_difficulty.csv # Metrics grouped by Easy, Medium, and Hard
 ```
-experiments/EXP_001/<problem_id>/attempt_00N/{solution.cpp, prompt.txt, attempt.json}
-results/EXP_001/
-    experiment_metadata.json      hardware, model, seed, GPU/CPU energy method, idle baseline, carbon factor
-    raw_attempts.jsonl            one record per attempt (append-only)
-    problem_results.jsonl         one cumulative record per problem (append-only)
-    sensor_samples.csv            raw power readings per attempt/phase/sensor (audit trail)
-    analysis/attempt_level.csv
-    analysis/problem_level.csv
-    analysis/summary_by_difficulty.csv
+
+### `sensor_samples.csv` Sample Schema
+| timestamp | experiment_id | problem_id | attempt_id | phase | sensor | power_watts | cumulative_joules |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 1711234501.12 | EXP_001 | HR_E_001 | att_001 | generation | gpu | 62.4 | 12.48 |
+| 1711234501.12 | EXP_001 | HR_E_001 | att_001 | generation | cpu_rapl | 38.1 | 7.62 |
+| 1711234505.40 | EXP_001 | HR_E_001 | att_001 | compilation | cpu_rapl | 54.2 | 16.26 |
+
+---
+
+## 🧩 Adding Custom Problems
+
+To add custom tasks to the benchmark, create a `.json` file inside `data/problems/`:
+
+```json
+{
+  "problem_id": "HR_E_011",
+  "name": "Sample Problem",
+  "difficulty": "Easy",
+  "source": "HackerRank",
+  "execution_format": "standard_io",
+  "output_comparator": "exact_match",
+  "problem_description": "Problem prompt text here...",
+  "solution_template": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // your code\n    return 0;\n}",
+  "test_cases": [
+    {
+      "test_id": "TC_001",
+      "input": "5 10\n",
+      "expected_output": "15\n",
+      "is_sample": true,
+      "timeout_seconds": 2.0
+    }
+  ]
+}
 ```
 
-`sensor_samples.csv` holds every raw watt reading behind every energy figure
-(phases: `idle_baseline`, `generation`, `correction_generation`, `compilation`,
-`execution`; GPU and CPU are separate rows). In estimated-CPU mode there is no
-sensor, so no CPU rows exist by design.
+---
 
-The three analysis CSVs are regenerated automatically at the end of every run â€”
-including when you stop it early with Ctrl+C.
+## 📜 Citation
 
-## 9. Before trusting a full 50â€“60-problem run
+If you use **RepairTax-LLM** in your research or wish to refer to the baseline telemetry framework:
 
-Run the pilot checklist in spec Â§19 first. After the pilot, open
-`results/EXP_001/experiment_metadata.json` and check `measurement.gpu_energy_method`
-(`nvml_energy_counter` = the onboard counter works; `nvml_power_sampled` = fallback)
-and `measurement.cpu_energy_method` (`rapl_measured` vs `estimated_constant_power`)
-â€” both are also printed to the console at startup. Then check peak VRAM/RAM under
-load and idle-baseline stability across a couple of runs.
+```bibtex
+@software{repairtax_llm2026,
+  author = {Gofran Emon Khan},
+  title = {RepairTax-LLM: Component-Level Energy and Carbon Telemetry for Iterative Code Repair},
+  year = {2026},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/GofranEmonKhan/RepairTax_LLM}}
+}
+```
 
-`model.seed` in `config.yaml` (default 42) is applied once at startup so a run is
-reproducible; set it to `null` for unseeded sampling.
+---
 
+## 🤝 License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
